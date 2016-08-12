@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	table{
+		border:2px solid #000;
+	}
+	table tr td{
+		text-align:center;
+	}
+	table tr td:first-child{
+		width:100px;
+		height:50px;
+		border:3px solid #000;
+	}
+	table tr td:last-child{
+		width:200px;
+		height:50px;
+		border:3px solid #000;
+
+	}
+	.main{
+		width:100%;
+		padding:40px 0;
+		border-top:1px solid #000;
+		border-bottom:1px solid #000;
+		margin-top:10px;
+	}
+	
+</style>
+<body>
+	<fieldset>
+		<legend>客户信息管理网页</legend>
+		<form action="#">
+			<table>
+				<tr>
+					<td>姓名</td>
+					<td><input type="text" id="name"></td>
+				</tr>
+				<tr>
+					<td>邮箱</td>
+					<td><input type="text" id="email"></td>
+				</tr>
+				<tr>
+					<td>电话</td>
+					<td><input type="text" id="phone"></td>
+				</tr>
+				<tr>
+					<td>备注</td>
+					<td><input type="text" id="remark"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button id="saveBtn">保存</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div class="main">
+			<span>根据姓名检索信息</span>
+			<input type="text" id="nameSearch">
+			<button id="search">检索</button>
+		</div>
+		<h2></h2>
+	</fieldset>
+</body>
+<script>
+	window.onload = function(){
+		var oSaveBtn = document.getElementById('saveBtn');
+		var oSearch = document.getElementById('search');
+		var oH2 = document.getElementsByTagName('h2')[0];
+		var index = 0;
+		oSaveBtn.onclick = function(){
+			index++;
+			var valueName = document.getElementById('name').value;
+			var valueEmail = document.getElementById('email').value;
+			var valuePhone = document.getElementById('phone').value;
+			var valueRemark = document.getElementById('remark').value;
+			var obj = {
+				name : valueName,
+				email : valueEmail,
+				phone : valuePhone,
+				remark : valueRemark,
+			}
+			var jObj = JSON.stringify(obj);
+			localStorage.setItem("index"+index,jObj);
+		}
+		oSearch.onclick = function(){
+			var valueSearch = document.getElementById('nameSearch').value;
+			oH2.innerHTML="";
+			console.log(valueSearch);
+			for(var i=0;i<localStorage.length;i++){
+				var key = localStorage.key(i);
+				var jObj = localStorage.getItem(key);
+				var obj = JSON.parse(jObj);
+				if(valueSearch == obj.name){
+					oH2.innerHTML= '<p>姓名：'+obj.name+'</p><p>邮箱:'+obj.email+'</p><p>电话:'+obj.phone+'</p><p>备注:'+obj.remark+'</p>'
+
+				}
+			}
+
+		}
+	}
+</script>
+</html>
